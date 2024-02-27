@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://0ro3e1vwy7n"]
+
+[ext_resource type="Texture2D" uid="uid://cohevy6q6wqpq" path="res://art/spikeball_screenshot.png" id="1_bmtsf"]
+[ext_resource type="Script" path="res://spikeball.gd" id="1_hegfe"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6fss3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hdo0j"]
+radius = 66.0
+
+[node name="Spikeball" type="StaticBody2D"]
+process_mode = 1
+collision_layer = 16
+collision_mask = 7
+physics_material_override = SubResource("PhysicsMaterial_6fss3")
+constant_linear_velocity = Vector2(2.08165e-12, 2.08165e-12)
+script = ExtResource("1_hegfe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_bmtsf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hdo0j")
+
+[node name="Timer_start_shrink" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer_start_shrink" to="." method="_on_timer_start_shrink_timeout"]

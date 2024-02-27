@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://d18m1mxwgxhhh"]
+
+[ext_resource type="Script" path="res://HUD.gd" id="1_bi4uf"]
+[ext_resource type="FontFile" uid="uid://bj5x6b4t447gb" path="res://fonts/Xolonium-Regular.ttf" id="2_yamrf"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_8nfwi"]
+action = &"start_game"
+
+[sub_resource type="Shortcut" id="Shortcut_5t3of"]
+events = [SubResource("InputEventAction_8nfwi")]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_bi4uf")
+
+[node name="StartButton" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -280.0
+offset_right = 200.0
+offset_bottom = -211.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_yamrf")
+theme_override_font_sizes/font_size = 50
+shortcut = SubResource("Shortcut_5t3of")
+text = "Start"
+
+[node name="RestartButton" type="Button" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -280.0
+offset_right = 200.0
+offset_bottom = -211.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_yamrf")
+theme_override_font_sizes/font_size = 50
+shortcut = SubResource("Shortcut_5t3of")
+text = "RESTART"
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

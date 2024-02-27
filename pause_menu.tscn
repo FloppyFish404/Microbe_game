@@ -1,0 +1,134 @@
+[gd_scene load_steps=2 format=3 uid="uid://c80jwyr5utn88"]
+
+[ext_resource type="Script" path="res://pause_menu.gd" id="1_ngp72"]
+
+[node name="Control" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ngp72")
+
+[node name="Panel" type="Panel" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -641.0
+offset_top = -379.5
+offset_right = 641.0
+offset_bottom = 379.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -349.5
+offset_right = 150.0
+offset_bottom = 349.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UpgradeMenu" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "UPGRADE MENU"
+horizontal_alignment = 1
+
+[node name="XpPoints" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "
+"
+horizontal_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -250.0
+offset_right = 200.0
+offset_bottom = 250.0
+grow_vertical = 2
+
+[node name="speed_upgrade_but" type="Button" parent="Panel/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Tail"
+
+[node name="boost_upgrade_but" type="Button" parent="Panel/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Tail Thickness"
+
+[node name="health_upgrade_but" type="Button" parent="Panel/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Skin Thickness"
+
+[node name="regen_upgrade_but" type="Button" parent="Panel/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Mitochondria"
+
+[node name="spike_upgrade_but" type="Button" parent="Panel/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Spike"
+
+[node name="bodydamage_upgrade_but" type="Button" parent="Panel/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Rough Skin"
+
+[node name="trail_upgrade_but" type="Button" parent="Panel/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Waste Toxicity"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+layout_mode = 2
+offset_left = 140.0
+offset_top = 650.0
+offset_right = 1140.0
+offset_bottom = 730.0
+size_flags_vertical = 8
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+fit_content = true
+drag_and_drop_selection_enabled = false
+
+[connection signal="mouse_entered" from="Panel/VBoxContainer2/speed_upgrade_but" to="." method="_on_speed_upgrade_but_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/VBoxContainer2/speed_upgrade_but" to="." method="_on_speed_upgrade_but_mouse_exited"]
+[connection signal="pressed" from="Panel/VBoxContainer2/speed_upgrade_but" to="." method="_on_speed_upgrade_but_pressed"]
+[connection signal="mouse_entered" from="Panel/VBoxContainer2/boost_upgrade_but" to="." method="_on_boost_upgrade_but_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/VBoxContainer2/boost_upgrade_but" to="." method="_on_boost_upgrade_but_mouse_exited"]
+[connection signal="pressed" from="Panel/VBoxContainer2/boost_upgrade_but" to="." method="_on_boost_upgrade_but_pressed"]
+[connection signal="mouse_entered" from="Panel/VBoxContainer2/health_upgrade_but" to="." method="_on_health_upgrade_but_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/VBoxContainer2/health_upgrade_but" to="." method="_on_health_upgrade_but_mouse_exited"]
+[connection signal="pressed" from="Panel/VBoxContainer2/health_upgrade_but" to="." method="_on_health_upgrade_but_pressed"]
+[connection signal="mouse_entered" from="Panel/VBoxContainer2/regen_upgrade_but" to="." method="_on_regen_upgrade_but_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/VBoxContainer2/regen_upgrade_but" to="." method="_on_regen_upgrade_but_mouse_exited"]
+[connection signal="pressed" from="Panel/VBoxContainer2/regen_upgrade_but" to="." method="_on_regen_upgrade_but_pressed"]
+[connection signal="mouse_entered" from="Panel/VBoxContainer2/spike_upgrade_but" to="." method="_on_spike_upgrade_but_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/VBoxContainer2/spike_upgrade_but" to="." method="_on_spike_upgrade_but_mouse_exited"]
+[connection signal="pressed" from="Panel/VBoxContainer2/spike_upgrade_but" to="." method="_on_spike_upgrade_but_pressed"]
+[connection signal="mouse_entered" from="Panel/VBoxContainer2/bodydamage_upgrade_but" to="." method="_on_bodydamage_upgrade_but_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/VBoxContainer2/bodydamage_upgrade_but" to="." method="_on_bodydamage_upgrade_but_mouse_exited"]
+[connection signal="pressed" from="Panel/VBoxContainer2/bodydamage_upgrade_but" to="." method="_on_bodydamage_upgrade_but_pressed"]
+[connection signal="mouse_entered" from="Panel/VBoxContainer2/trail_upgrade_but" to="." method="_on_trail_upgrade_but_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/VBoxContainer2/trail_upgrade_but" to="." method="_on_trail_upgrade_but_mouse_exited"]
+[connection signal="pressed" from="Panel/VBoxContainer2/trail_upgrade_but" to="." method="_on_trail_upgrade_but_pressed"]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyqln8om6mvub"]
+
+[ext_resource type="Script" path="res://xp_orb.gd" id="1_8vhw2"]
+[ext_resource type="Texture2D" uid="uid://bw8eg8lmyxide" path="res://art/green_circle.png" id="1_b37xq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qxbmn"]
+radius = 166.027
+
+[node name="xp_orb" type="Area2D"]
+process_mode = 1
+scale = Vector2(0.03, 0.03)
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_8vhw2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_b37xq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_qxbmn")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

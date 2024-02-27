@@ -1,0 +1,516 @@
+[gd_scene load_steps=43 format=3 uid="uid://bl0rkqhs1upiu"]
+
+[ext_resource type="Script" path="res://player_cp.gd" id="1_rd85x"]
+[ext_resource type="Texture2D" uid="uid://box3me3g4pe4r" path="res://art/microbe_skins/OG_1.png" id="2_7psqs"]
+[ext_resource type="Texture2D" uid="uid://dvm7b8xy3b03s" path="res://art/microbe_skins/OG_10.png" id="3_ibovn"]
+[ext_resource type="Texture2D" uid="uid://c0xupw6mqlhok" path="res://art/microbe_skins/OG_11.png" id="4_3ausw"]
+[ext_resource type="Texture2D" uid="uid://bmjkcnvqsus3" path="res://art/microbe_skins/OG_12.png" id="5_oi7j5"]
+[ext_resource type="Texture2D" uid="uid://87xqygm5vxng" path="res://art/microbe_skins/OG_13.png" id="6_4c1ft"]
+[ext_resource type="Texture2D" uid="uid://cof47kpavwnl8" path="res://art/microbe_skins/OG_14.png" id="7_h2yqc"]
+[ext_resource type="Texture2D" uid="uid://idkqrl7la2lc" path="res://art/microbe_skins/OG_15.png" id="8_8b3nk"]
+[ext_resource type="Texture2D" uid="uid://dggayshdin7n1" path="res://art/microbe_skins/OG_2.png" id="9_rm1r5"]
+[ext_resource type="Texture2D" uid="uid://dxcljrspju6du" path="res://art/microbe_skins/OG_3.png" id="10_t83fv"]
+[ext_resource type="Texture2D" uid="uid://bn62ugg43upcw" path="res://art/microbe_skins/OG_4.png" id="11_iw0un"]
+[ext_resource type="Texture2D" uid="uid://c36ipeeljtdyj" path="res://art/microbe_skins/OG_5.png" id="12_sbphs"]
+[ext_resource type="Texture2D" uid="uid://du442hj3mgumu" path="res://art/microbe_skins/OG_6.png" id="13_j16k2"]
+[ext_resource type="Texture2D" uid="uid://ckbylc54vbycc" path="res://art/microbe_skins/OG_7.png" id="14_pfefk"]
+[ext_resource type="Texture2D" uid="uid://bmgfep5gmtxv2" path="res://art/microbe_skins/OG_8.png" id="15_hk43u"]
+[ext_resource type="Texture2D" uid="uid://bruenot7tae4a" path="res://art/microbe_skins/OG_9.png" id="16_qxdtm"]
+[ext_resource type="Texture2D" uid="uid://dlpsblaod8c4m" path="res://art/microbe_skins/OG_0.png" id="17_0d08y"]
+[ext_resource type="Texture2D" uid="uid://cw7tp7qghx4vu" path="res://art/mitochondria.png" id="18_rwptb"]
+[ext_resource type="Texture2D" uid="uid://bqc3tda6v3ad8" path="res://art/body_spikes/bodyspike_1.png" id="19_lpgvx"]
+[ext_resource type="Texture2D" uid="uid://1svkolybvklc" path="res://art/body_spikes/bodyspike_10.png" id="20_14fpj"]
+[ext_resource type="Texture2D" uid="uid://dmsg31wffrjal" path="res://art/body_spikes/bodyspike_2.png" id="21_qfyeg"]
+[ext_resource type="Texture2D" uid="uid://vp2yw4x7myqa" path="res://art/body_spikes/bodyspike_3.png" id="22_0xkc4"]
+[ext_resource type="Texture2D" uid="uid://cl6i4m3xt202i" path="res://art/body_spikes/bodyspike_4.png" id="23_4ufrs"]
+[ext_resource type="Texture2D" uid="uid://ckowxa43i78oi" path="res://art/body_spikes/bodyspike_5.png" id="24_h5by5"]
+[ext_resource type="Texture2D" uid="uid://n4r1asw4w1cu" path="res://art/body_spikes/bodyspike_6.png" id="25_qpcmq"]
+[ext_resource type="Texture2D" uid="uid://bj8ridwfap6lu" path="res://art/body_spikes/bodyspike_7.png" id="26_mud4b"]
+[ext_resource type="Texture2D" uid="uid://lx54iadqbt0t" path="res://art/body_spikes/bodyspike_8.png" id="27_7ycyr"]
+[ext_resource type="Texture2D" uid="uid://c033sv6colnho" path="res://art/body_spikes/bodyspike_9.png" id="28_70xb2"]
+[ext_resource type="Texture2D" uid="uid://bde16cqiseyeu" path="res://art/spike_basic.png" id="29_esc7n"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jf1qe"]
+bounce = 5.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nprx6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7psqs")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ibovn")
+}],
+"loop": true,
+"name": &"10",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_3ausw")
+}],
+"loop": true,
+"name": &"11",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_oi7j5")
+}],
+"loop": true,
+"name": &"12",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_4c1ft")
+}],
+"loop": true,
+"name": &"13",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_h2yqc")
+}],
+"loop": true,
+"name": &"14",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_8b3nk")
+}],
+"loop": true,
+"name": &"15",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_rm1r5")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_t83fv")
+}],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_iw0un")
+}],
+"loop": true,
+"name": &"4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_sbphs")
+}],
+"loop": true,
+"name": &"5",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_j16k2")
+}],
+"loop": true,
+"name": &"6",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_pfefk")
+}],
+"loop": true,
+"name": &"7",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_hk43u")
+}],
+"loop": true,
+"name": &"8",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_qxdtm")
+}],
+"loop": true,
+"name": &"9",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_0d08y")
+}],
+"loop": true,
+"name": &"base_0",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_imdca"]
+resource_name = "pulsation"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.03, 0.03), Vector2(0.035, 0.035), Vector2(0.03, 0.03)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gjynk"]
+_data = {
+"pulsation": SubResource("Animation_imdca")
+}
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1sipi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("19_lpgvx")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_14fpj")
+}],
+"loop": true,
+"name": &"10",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_qfyeg")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("22_0xkc4")
+}],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("23_4ufrs")
+}],
+"loop": true,
+"name": &"4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("24_h5by5")
+}],
+"loop": true,
+"name": &"5",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_qpcmq")
+}],
+"loop": true,
+"name": &"6",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("26_mud4b")
+}],
+"loop": true,
+"name": &"7",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("27_7ycyr")
+}],
+"loop": true,
+"name": &"8",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("28_70xb2")
+}],
+"loop": true,
+"name": &"9",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6kwwe"]
+resource_local_to_scene = true
+radius = 28.0
+height = 80.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rad24"]
+size = Vector2(4, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_maew5"]
+bg_color = Color(1, 0.411765, 0.458824, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h8mo8"]
+bg_color = Color(0, 0.682353, 0.952941, 0.411765)
+
+[sub_resource type="Gradient" id="Gradient_jje6d"]
+interpolation_mode = 2
+colors = PackedColorArray(0.282353, 0.772549, 0.137255, 1, 0.176471, 0.388235, 0.117647, 0.784314)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vebmq"]
+gradient = SubResource("Gradient_jje6d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rlq3o"]
+lifetime_randomness = 0.9
+particle_flag_disable_z = true
+particle_flag_damping_as_friction = true
+emission_shape = 3
+emission_box_extents = Vector3(2.08165e-12, 6, 1)
+angle_min = 3.9968e-14
+angle_max = 3.9968e-14
+spread = 0.0
+flatness = 1.0
+initial_velocity_min = -70.0
+initial_velocity_max = -10.0
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+damping_min = 1.0
+damping_max = 2.0
+scale_min = 2.0
+scale_max = 10.0
+color_ramp = SubResource("GradientTexture1D_vebmq")
+turbulence_noise_strength = 6.0
+turbulence_noise_scale = 10.0
+
+[sub_resource type="Gradient" id="Gradient_7j80b"]
+colors = PackedColorArray(0, 0.117647, 0.0392157, 0, 0.117647, 0.313726, 0.156863, 0.313726)
+
+[node name="Player_cp" type="RigidBody2D"]
+process_mode = 1
+collision_mask = 57
+physics_material_override = SubResource("PhysicsMaterial_jf1qe")
+gravity_scale = 2.66454e-15
+inertia = 0.1
+max_contacts_reported = 1
+contact_monitor = true
+linear_damp_mode = 1
+linear_damp = 2.0
+angular_damp_mode = 1
+angular_damp = 20.0
+script = ExtResource("1_rd85x")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+rotation = 1.5708
+scale = Vector2(0.074, 0.074)
+sprite_frames = SubResource("SpriteFrames_nprx6")
+animation = &"base_0"
+
+[node name="Mitochondria" type="Sprite2D" parent="Node2D"]
+visible = false
+position = Vector2(2.08165e-12, 2.08165e-12)
+rotation = 1.5708
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("18_rwptb")
+
+[node name="AnimatePulse" type="AnimationPlayer" parent="Node2D/Mitochondria"]
+libraries = {
+"": SubResource("AnimationLibrary_gjynk")
+}
+
+[node name="BodySpike" type="AnimatedSprite2D" parent="Node2D"]
+visible = false
+rotation = 1.5708
+scale = Vector2(0.075, 0.075)
+sprite_frames = SubResource("SpriteFrames_1sipi")
+animation = &"1"
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_6kwwe")
+
+[node name="Camera" type="Camera2D" parent="."]
+limit_left = 0
+limit_top = 0
+limit_right = 20000
+limit_bottom = 15000
+position_smoothing_speed = 200.0
+
+[node name="Pointer" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(2.08165e-12, 2.08165e-12)
+color = Color(1, 1, 1, 0.392157)
+polygon = PackedVector2Array(50, -10, 50, 10, 150, 2.08165e-12)
+
+[node name="TailNode" type="Node2D" parent="."]
+visible = false
+show_behind_parent = true
+position = Vector2(-39, 0)
+
+[node name="swim_rate" type="Timer" parent="TailNode"]
+wait_time = 0.1
+
+[node name="Anchor" type="StaticBody2D" parent="TailNode"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+collision_layer = 0
+collision_mask = 0
+constant_linear_velocity = Vector2(10, 2.08165e-12)
+
+[node name="Polygon2D" type="Polygon2D" parent="TailNode/Anchor"]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-2, -2, 2, -2, 2, 2, -2, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TailNode/Anchor"]
+position = Vector2(0, -2.08165e-12)
+shape = SubResource("RectangleShape2D_rad24")
+
+[node name="Pin_end" type="PinJoint2D" parent="TailNode"]
+node_a = NodePath("../Anchor")
+node_b = NodePath("../tail_end")
+bias = 0.9
+
+[node name="tail_end" type="RigidBody2D" parent="TailNode"]
+position = Vector2(-2, 0)
+collision_layer = 2
+collision_mask = 53
+mass = 0.1
+gravity_scale = 2.66454e-15
+linear_damp_mode = 1
+linear_damp = 5.0
+
+[node name="Polygon2D" type="Polygon2D" parent="TailNode/tail_end"]
+position = Vector2(4, 0)
+scale = Vector2(1.05263, 1)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-3.80001, -2, -3.80001, 2, -13.3, 0)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TailNode/tail_end"]
+position = Vector2(-10, 0)
+polygon = PackedVector2Array(10, -2, 10, 2, 0, 2.08165e-12)
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+
+[node name="Xp_Bar" type="ProgressBar" parent="Canvas"]
+offset_left = 160.0
+offset_top = 30.0
+offset_right = 1760.0
+offset_bottom = 40.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Level_Display" type="Label" parent="Canvas/Xp_Bar"]
+layout_mode = 0
+offset_left = -60.0
+offset_top = -25.0
+offset_bottom = 35.0
+theme_type_variation = &"HeaderLarge"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Health_Bar" type="ProgressBar" parent="Canvas"]
+offset_left = 160.0
+offset_top = 60.0
+offset_right = 1760.0
+offset_bottom = 70.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_maew5")
+step = 0.002
+value = 100.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="Boost_Bar" type="ProgressBar" parent="Canvas"]
+visible = false
+offset_left = 160.0
+offset_top = 1030.0
+offset_right = 1760.0
+offset_bottom = 1040.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_h8mo8")
+value = 100.0
+show_percentage = false
+
+[node name="Xp_points" type="Label" parent="Canvas"]
+custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
+offset_left = 710.0
+offset_top = 100.0
+offset_right = 1210.0
+offset_bottom = 150.0
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spike" type="StaticBody2D" parent="."]
+visible = false
+position = Vector2(37, -2.08165e-12)
+rotation = 1.5708
+collision_layer = 4
+collision_mask = 58
+
+[node name="Sprite2D" type="Sprite2D" parent="Spike"]
+scale = Vector2(0.05, 0.01)
+texture = ExtResource("29_esc7n")
+
+[node name="Spike_Area" type="Area2D" parent="Spike"]
+position = Vector2(2.04636e-12, 0)
+collision_layer = 4
+collision_mask = 58
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Spike/Spike_Area"]
+position = Vector2(-1.086e-05, -3)
+scale = Vector2(1, 1.01199)
+polygon = PackedVector2Array(10, 2.96443, -9.99999, 2.9645, -3.25799e-05, -8.89339)
+
+[node name="Trail" type="Node2D" parent="."]
+visible = false
+position = Vector2(-39, 2.08165e-12)
+
+[node name="Trail_Particles" type="GPUParticles2D" parent="Trail"]
+position = Vector2(0, -2.08165e-12)
+process_material = SubResource("ParticleProcessMaterial_rlq3o")
+lifetime = 2.0
+randomness = 1.0
+
+[node name="Trail_Line" type="Line2D" parent="Trail"]
+visible = false
+z_index = -1
+position = Vector2(2.08165e-12, 2.08165e-12)
+width = 15.0
+gradient = SubResource("Gradient_7j80b")
+
+[node name="Stun" type="Timer" parent="."]
+wait_time = 0.8
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="TailNode/swim_rate" to="." method="_on_swim_rate_timeout"]
+[connection signal="body_entered" from="Spike/Spike_Area" to="." method="_on_spike_area_body_entered"]
+[connection signal="timeout" from="Stun" to="." method="_on_stun_timeout"]

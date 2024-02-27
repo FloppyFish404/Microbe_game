@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://bywltv05qsnkp"]
+
+[ext_resource type="Script" path="res://map.gd" id="1_cdx8f"]
+[ext_resource type="Texture2D" uid="uid://rxa1qexeb1do" path="res://art/Backgrounds/seamless.jpg" id="1_qmbfp"]
+
+[sub_resource type="Gradient" id="Gradient_yyinb"]
+colors = PackedColorArray(0.788235, 0.952941, 0.478431, 0.392157, 0, 0.254902, 0.301961, 0.588235)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uavvm"]
+gradient = SubResource("Gradient_yyinb")
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.1, 0.557)
+
+[sub_resource type="Gradient" id="Gradient_12bq7"]
+offsets = PackedFloat32Array(0, 0.532468, 1)
+colors = PackedColorArray(0.0470588, 0.027451, 0.152941, 0.270588, 0.407843, 0.176471, 0.862745, 0.196078, 0.501961, 0.964706, 0.415686, 0.196078)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qdcut"]
+gradient = SubResource("Gradient_12bq7")
+fill_from = Vector2(0.694954, 0.731651)
+fill_to = Vector2(0.178899, 0.135321)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_f4ak7"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_dqdq0"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_actt1"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_gsofx"]
+normal = Vector2(-1, 0)
+
+[node name="Map" type="TextureRect"]
+z_index = -2
+offset_right = 20000.0
+offset_bottom = 15000.0
+texture = ExtResource("1_qmbfp")
+stretch_mode = 1
+script = ExtResource("1_cdx8f")
+
+[node name="Overlay1" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 20000.0
+offset_bottom = 15000.0
+texture = SubResource("GradientTexture2D_uavvm")
+
+[node name="Overlay2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 20000.0
+offset_bottom = 15000.0
+texture = SubResource("GradientTexture2D_qdcut")
+
+[node name="WorldBound" type="StaticBody2D" parent="."]
+light_mask = 512
+visibility_layer = 512
+disable_mode = 1
+collision_layer = 32
+collision_mask = 7
+constant_linear_velocity = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="TopWorldBound" type="CollisionShape2D" parent="WorldBound"]
+position = Vector2(10000, 2.08165e-12)
+shape = SubResource("WorldBoundaryShape2D_f4ak7")
+
+[node name="LeftWorldBound" type="CollisionShape2D" parent="WorldBound"]
+position = Vector2(2.08165e-12, 7500)
+shape = SubResource("WorldBoundaryShape2D_dqdq0")
+
+[node name="BottomWorldBound" type="CollisionShape2D" parent="WorldBound"]
+position = Vector2(10000, 15000)
+shape = SubResource("WorldBoundaryShape2D_actt1")
+
+[node name="RightWorldBound" type="CollisionShape2D" parent="WorldBound"]
+position = Vector2(20000, 7500)
+shape = SubResource("WorldBoundaryShape2D_gsofx")

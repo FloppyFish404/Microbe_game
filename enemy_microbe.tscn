@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://coil1md47lyyr"]
+
+[ext_resource type="Script" path="res://CharacterBody2D.gd" id="1_5um1n"]
+[ext_resource type="Texture2D" uid="uid://dskh72ikmxm43" path="res://bacteria.png" id="2_atmy1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ikf20"]
+radius = 30.0
+height = 118.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pkybh"]
+radius = 300.0
+
+[node name="EnemyMicrobe" type="CharacterBody2D"]
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_5um1n")
+
+[node name="Bacteria" type="Sprite2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_atmy1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-21, -8)
+shape = SubResource("CapsuleShape2D_ikf20")
+
+[node name="Navigation" type="Node2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Navigation"]
+
+[node name="Aggro" type="Node2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="Aggro"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Aggro/Area2D"]
+shape = SubResource("CircleShape2D_pkybh")
+debug_color = Color(0.980392, 0.145098, 0, 0.419608)
