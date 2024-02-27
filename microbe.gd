@@ -338,9 +338,11 @@ func health_lvl_up():
 		if upgrade_lvls["health"] % 3 == 0:  # shrink sprite to match collision shape
 			$Node2D/Sprite.scale -= Vector2(0.001, 0.001)
 		# stats upgrade
-		max_health += 10
-		max_health += int(max_health* 0.1)  
-		# 100 --> 752 max value (15 upgrade slots)
+		var new_max : int = max_health + 10 + int(max_health* 0.1) 
+		var increase = new_max - max_health
+		max_health = new_max
+		health += increase  # add health from upgrade
+		# 100 --> 726 max value (15 upgrade slots)
 
 func regen_lvl_up():
 	if can_upgrade("regen"):

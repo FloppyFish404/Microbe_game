@@ -128,6 +128,3 @@ func get_trails():
 		#for point in trail.points:
 			#if $Player/Bod.shape.has_point(point):
 			#	print('in trail!')
-
-
-

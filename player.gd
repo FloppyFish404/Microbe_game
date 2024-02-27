@@ -98,6 +98,11 @@ func upgrade(att : String):
 	global.player_lvls[att] = upgrade_lvls[att]
 	global.xp_points = xp_points
 
+func health_lvl_up():
+	super()
+	$Canvas/Health_Bar.max_value = max_health
+	$Canvas/Health_Bar.value = health
+
 func boost():
 	super()
 	boost_key_held = true
