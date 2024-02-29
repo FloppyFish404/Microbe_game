@@ -8,9 +8,9 @@ var xp_orbs = []
 var spikeballs = []
 var mobs = []
 var score
-var total_xp_orbs : int = 500
+var total_xp_orbs : int = 50
 var total_spikeballs : int = 100 # 100
-var total_mobs = 100
+var total_mobs = 10
 var game_started = false
 @onready var game_running: bool = get_tree().paused
 @onready var map = get_node("Map")
@@ -40,8 +40,6 @@ func _process(delta):
 	if $Player.dead:
 		$HUD.restart_message()
 		
-	get_trails()
-
 func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
@@ -82,9 +80,10 @@ func _on_del_items_check_timer_timeout():  # check items consumed to be replaced
 	group_cleanup(spikeballs)
 	group_cleanup(mobs)
 
+
 func group_cleanup(items : Array):
 	var to_del_items = []
-	for i in items.size() - 1:
+	for i in items.size():
 		if not is_instance_valid(items[i]):
 			to_del_items.append(i)
 	for indx in to_del_items:
@@ -102,12 +101,14 @@ func spawn_spikeball():
 	add_child(spikeball)
 	spikeballs.append(spikeball)
 
+
 func spawn_mob():
 	var mob = pipe_mob.instantiate()
 	while mob.position.x < 200 or mob.position.y < 200:
 		mob.position = random_map_position()
 	add_child(mob)
 	mobs.append(mob)
+
 
 func random_map_position() -> Vector2:
 	var pos_x : int = randi_range(0, map.size.x)
@@ -120,11 +121,3 @@ func random_map_position() -> Vector2:
 		position = Vector2(pos_x, pos_y)
 		distance_to_player = ($Player.position - position).length()
 	return position
-
-func get_trails():
-	pass
-	#for mob in mobs:
-		#var trail : Line2D = mob.get_node('Trail/Trail_Line')
-		#for point in trail.points:
-			#if $Player/Bod.shape.has_point(point):
-			#	print('in trail!')

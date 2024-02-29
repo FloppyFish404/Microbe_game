@@ -4,7 +4,7 @@ extends Area2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	name = 'xp_orb'
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -12,6 +12,6 @@ func _process(delta):
 
 func _on_body_entered(body):  
 	# only microbes can collide set with collision masks
-	body.xp_acquire(300)
+	body.xp_acquire(10)
 	body.health += 1
 	queue_free() # remove xp_orb

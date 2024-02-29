@@ -17,9 +17,9 @@ func _ready():
 	global.trail_button_pressed.connect(trail_lvl_up)
 	level = 1
 	xp_points = 100
-	random_pos()
+	# random_pos()
 
-func random_pos():  # DEL ME
+func random_pos():
 	pos_x = randi_range(2000, map.size.x - 2000)
 	pos_y = randi_range(2000, map.size.y - 2000)
 	position = Vector2(pos_x, pos_y)

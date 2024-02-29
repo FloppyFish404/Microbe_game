@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://cb1qm6o40ti7t"]
+[gd_scene load_steps=38 format=3 uid="uid://cb1qm6o40ti7t"]
 
 [ext_resource type="Script" path="res://microbe.gd" id="1_7ajjv"]
 [ext_resource type="Texture2D" uid="uid://box3me3g4pe4r" path="res://art/microbe_skins/OG_1.png" id="2_uu108"]
@@ -260,7 +260,7 @@ size = Vector2(4, 4)
 
 [sub_resource type="Gradient" id="Gradient_jje6d"]
 interpolation_mode = 2
-colors = PackedColorArray(0.282353, 0.772549, 0.137255, 1, 0.176471, 0.388235, 0.117647, 0.784314)
+colors = PackedColorArray(0.423529, 0.772549, 0.137255, 1, 0.176471, 0.341176, 0.117647, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_vebmq"]
 gradient = SubResource("Gradient_jje6d")
@@ -275,8 +275,7 @@ angle_min = 3.9968e-14
 angle_max = 3.9968e-14
 spread = 0.0
 flatness = 1.0
-initial_velocity_min = -70.0
-initial_velocity_max = -10.0
+initial_velocity_min = -10.0
 gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
 damping_min = 1.0
 damping_max = 2.0
@@ -285,9 +284,6 @@ scale_max = 10.0
 color_ramp = SubResource("GradientTexture1D_vebmq")
 turbulence_noise_strength = 6.0
 turbulence_noise_scale = 10.0
-
-[sub_resource type="Gradient" id="Gradient_7j80b"]
-colors = PackedColorArray(0, 0.117647, 0.0392157, 0, 0.117647, 0.313726, 0.156863, 0.313726)
 
 [node name="Microbe" type="RigidBody2D"]
 process_mode = 1
@@ -396,15 +392,12 @@ position = Vector2(-39, 2.08165e-12)
 z_index = -1
 position = Vector2(0, -2.08165e-12)
 process_material = SubResource("ParticleProcessMaterial_rlq3o")
-lifetime = 2.0
-randomness = 1.0
 
 [node name="Trail_Line" type="Line2D" parent="Trail"]
-visible = false
 z_index = -1
 position = Vector2(0, 2.08165e-12)
-width = 15.0
-gradient = SubResource("Gradient_7j80b")
+width = 1.0
+default_color = Color(1, 1, 1, 0.117647)
 
 [node name="Stun" type="Timer" parent="."]
 wait_time = 0.8

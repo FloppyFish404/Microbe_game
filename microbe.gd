@@ -68,7 +68,8 @@ var spike_damage : int = 5
 
 var bodydamage : int = 0
 
-var trail_length = 50
+var trail_length = 8
+var trail_damage : float = 0.03
 var dead : bool = false
 
 @onready var map = get_parent().get_node("Map")
@@ -122,13 +123,6 @@ func _process(_delta):
 		$Node2D/Sprite.modulate = Color(int(col_fade*250 + 5))  # alpha value, 255 max opacity
 		$Node2D/BodySpike.modulate = Color(int(col_fade*150 + 105))
 
-	# TRAIL
-	if $Trail.is_visible_in_tree():
-		$Trail/Trail_Line.set_as_top_level(true)
-		$Trail/Trail_Line.add_point($Trail.global_position)
-		if $Trail/Trail_Line.get_point_count() > trail_length:
-			$Trail/Trail_Line.remove_point(0)
-
 func _physics_process(_delta):
 	if dead or stun:  # inside min_move_distance
 		speed = 0
@@ -136,6 +130,29 @@ func _physics_process(_delta):
 	if drain_boost == true and boost_capacity > 0:
 		tail_movement_rate += 0.5  # faster tail for boost
 	swim_animation(tail_movement_rate * _delta * 50)
+
+	if Engine.get_process_frames() % 10 == 0:
+
+		# TRAIL
+		if $Trail.is_visible_in_tree():
+			$Trail/Trail_Line.set_as_top_level(true)
+			$Trail/Trail_Line.add_point($Trail.global_position)
+			if $Trail/Trail_Line.get_point_count() > trail_length:
+				$Trail/Trail_Line.remove_point(0)
+
+	# RAYCASTING TRAIL COLLISIONS
+	for i in $Trail/Trail_Line.get_point_count()-1:
+		var space_state = get_world_2d().direct_space_state
+		var current_point : Vector2 = $Trail/Trail_Line.get_point_position(i)
+		var next_point : Vector2 = $Trail/Trail_Line.get_point_position(i+1)
+		var col_mask = pow(2, 1-1) + pow(2, 3-1)  # player body (1) and player spike (3)
+		var query = PhysicsRayQueryParameters2D.create(current_point, next_point, col_mask, [self])
+		var result = space_state.intersect_ray(query)
+		if result:
+			print("Hit an: ", result.collider, " Hit at point: ", result.position)
+			var body : Microbe = result.collider
+			body.health -= i * trail_damage
+
 
 func xp_acquire(xp_gain):
 	xp += xp_gain
@@ -400,21 +417,22 @@ func trail_lvl_up():
 			$Trail.show()
 			return
 		$Trail/Trail_Particles.amount = 8 + upgrade_lvls["trail"] * 8
-		$Trail/Trail_Particles.lifetime = 2 + upgrade_lvls["trail"] * 0.2
-		trail_length = 50 + (upgrade_lvls["trail"]-1)*40
+		$Trail/Trail_Particles.lifetime = 1 + upgrade_lvls["trail"] * 0.3
+		trail_length = 8 + (upgrade_lvls["trail"]-1)*4
 		# Trail gradient visuals
-		var grad : Gradient = Gradient.new()
-		var green_inc : int = (upgrade_lvls["trail"]-1)*10
-		var opacity_inc : int = (upgrade_lvls["trail"]-1)*10
-		var fade_point : float = 1 - (float(trail_length - 50)/trail_length)
-		var old_green = Color8(30, 80, 40, 80 + opacity_inc)
-		var new_green = Color8(30, 80 + green_inc, 40, 80 + opacity_inc)
-		# var new_purple = Color8(30 + green_inc, 80 - green_inc, 40 + green_inc*2, 80 + opacity_inc)
-		grad.set_color(1, new_green)  # start of trail
-		grad.add_point(fade_point, old_green)  # 50 pixels from end of trail
-		grad.set_color(0, Color8(0, 30, 10, 0))  # end of trail
-		grad.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_LINEAR
-		$Trail/Trail_Line.gradient = grad
+		# var grad : Gradient = Gradient.new()
+		# var green_inc : int = (upgrade_lvls["trail"]-1)*10
+		# var opacity_inc : int = (upgrade_lvls["trail"]-1)*10
+		# var fade_point : float = 1 - (float(trail_length - 50)/trail_length)
+		# var old_green = Color8(30, 80, 40, 80 + opacity_inc)
+		# var new_green = Color8(30, 80 + green_inc, 40, 80 + opacity_inc)
+		# # var new_purple = Color8(30 + green_inc, 80 - green_inc, 40 + green_inc*2, 80 + opacity_inc)
+		# grad.set_color(1, new_green)  # start of trail
+		# grad.add_point(fade_point, old_green)  # 50 pixels from end of trail
+		# grad.set_color(0, Color8(0, 30, 10, 0))  # end of trail
+		# grad.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_LINEAR
+		# $Trail/Trail_Line.gradient = grad
+
 
 func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if body.name.left(4) == 'tail':
@@ -424,9 +442,11 @@ func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index)
 		var body_shape_node = body.shape_owner_get_owner(body_shape_owner)
 		var local_shape_owner = shape_find_owner(local_shape_index)
 		var local_shape_node = shape_owner_get_owner(local_shape_owner)
-		print('self: ', self.name, local_shape_node.name)
-		print('other body: ', body, ', ', body.name)
-		print('other body shape: ', body_shape_node, ', ', body_shape_node.name, '\n')
+		# print('self: ', self.name, local_shape_node.name)
+		# print('other body: ', body, ', ', body.name)
+		# print('other body shape: ', body_shape_node, ', ', body_shape_node.name, '\n')
+		# if body.name.left(3) == 'Mob':
+			# print('lvl: ', body.level, ' Health: ', body.health)
 	
 		if body.name.left(9) == 'Spikeball':
 			spikeball_hit(body)
@@ -434,8 +454,6 @@ func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index)
 			spike_hit(body)
 		if body_shape_node.name == 'Bod':
 			body_hit(body)
-			print('do body damage now! ouch!')
-		# elif body_shape_node.name == 'Mob'
 
 func spikeball_hit(body):
 	# Take damage
@@ -497,6 +515,15 @@ func death():
 # TODO
 # dealing damage:
 	# trail
+	
+# TRAIL:
+# reduce no. points in trail, time that they are added
+# get trail to add points constant intervals? is this happening
+# 
+
+# glitch - sometimes upgrading tail, the tail_end gets pinned far away
+
+
 # xp gain on mob death
 	#last to touch on death? 
 	# if you touch dead body?
