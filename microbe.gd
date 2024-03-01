@@ -64,13 +64,16 @@ var mit_tween_exists : bool = false
 var mit_grow_size : Vector2
 var mit_base_size : Vector2
 
-var spike_damage : int = 5
+var spike_damage : int = 0
 
 var bodydamage : int = 0
 
 var trail_length = 8
-var trail_damage : float = 0.03
+var trail_damage : float = 0.10
+
+var last_damaged
 var dead : bool = false
+var kill_count : int = 0
 
 @onready var map = get_parent().get_node("Map")
 
@@ -103,7 +106,9 @@ func _process(_delta):
 		health = max_health
 	if health < 0:
 		health = 0
-		death()
+		if not dead:
+			global.grant_kill_xp.emit(last_damaged, level)
+			death()
 
 	if upgrade_lvls['regen'] > 0:
 		if health < max_health and not dead:
@@ -149,9 +154,10 @@ func _physics_process(_delta):
 		var query = PhysicsRayQueryParameters2D.create(current_point, next_point, col_mask, [self])
 		var result = space_state.intersect_ray(query)
 		if result:
-			print("Hit an: ", result.collider, " Hit at point: ", result.position)
+			# print("Hit an: ", result.collider, " Hit at point: ", result.position)
 			var body : Microbe = result.collider
-			body.health -= i * trail_damage
+			body.health -= trail_damage
+			body.last_damaged = self
 
 
 func xp_acquire(xp_gain):
@@ -392,7 +398,7 @@ func create_mitochondria_tween():
 func spike_lvl_up():
 	if can_upgrade("spike"):
 		upgrade('spike')
-		spike_damage = 5 + upgrade_lvls["spike"]*3
+		spike_damage = upgrade_lvls["spike"]*8
 		if upgrade_lvls["spike"] == 1:
 			$Spike.disabled = false
 			$Spike.show()
@@ -419,6 +425,7 @@ func trail_lvl_up():
 		$Trail/Trail_Particles.amount = 8 + upgrade_lvls["trail"] * 8
 		$Trail/Trail_Particles.lifetime = 1 + upgrade_lvls["trail"] * 0.3
 		trail_length = 8 + (upgrade_lvls["trail"]-1)*4
+		trail_damage = 0.10 + upgrade_lvls["trail"] * 0.05
 		# Trail gradient visuals
 		# var grad : Gradient = Gradient.new()
 		# var green_inc : int = (upgrade_lvls["trail"]-1)*10
@@ -484,10 +491,11 @@ func spike_hit(body):
 	var impulse_vect = const_push + vel_push
 	apply_impulse(impulse_vect)
 	health -= body.spike_damage
-	print(body.spike_damage)
+	last_damaged = body
 
 func body_hit(body):
 	health -= body.bodydamage
+	last_damaged = body
 
 func death():
 	dead = true
@@ -513,29 +521,17 @@ func death():
 				tween.tween_property(poly, 'modulate', Color(0), time)  # tail_polygons dissapear
 
 # TODO
-# dealing damage:
-	# trail
-	
-# TRAIL:
-# reduce no. points in trail, time that they are added
-# get trail to add points constant intervals? is this happening
-# 
 
 # glitch - sometimes upgrading tail, the tail_end gets pinned far away
 
-
-# xp gain on mob death
-	#last to touch on death? 
-	# if you touch dead body?
-	# dead body drops xp orbs?
 # mob behaviour
+	# dodge trail
+	# boost
+
 # blue '5' xp orb
 # stop excessive tail swing
 
-
 # Things to improve/fix:
-	# spike collision with walls
-	# tail stretch
 	# change sprite to gray instead of alpha on death
 	# stop overlap spawning in main
 

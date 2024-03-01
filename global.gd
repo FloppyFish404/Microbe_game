@@ -38,3 +38,4 @@ func reset_stats():
 signal start_button_pressed
 signal restart_button_pressed
 
+signal grant_kill_xp

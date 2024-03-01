@@ -16,8 +16,8 @@ func _ready():
 	global.bodydamage_button_pressed.connect(bodydamage_lvl_up)
 	global.trail_button_pressed.connect(trail_lvl_up)
 	level = 1
-	xp_points = 100
-	# random_pos()
+	xp_points = 0
+	random_pos()
 
 func random_pos():
 	pos_x = randi_range(2000, map.size.x - 2000)

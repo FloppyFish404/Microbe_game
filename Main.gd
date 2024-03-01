@@ -8,9 +8,9 @@ var xp_orbs = []
 var spikeballs = []
 var mobs = []
 var score
-var total_xp_orbs : int = 50
+var total_xp_orbs : int = 500
 var total_spikeballs : int = 100 # 100
-var total_mobs = 10
+var total_mobs = 40
 var game_started = false
 @onready var game_running: bool = get_tree().paused
 @onready var map = get_node("Map")
@@ -28,6 +28,7 @@ func _ready():
 		spawn_spikeball()
 	global.restart_button_pressed.connect(restart_game)
 	global.start_button_pressed.connect(start_game)
+	global.grant_kill_xp.connect(grant_kill_xp)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -121,3 +122,19 @@ func random_map_position() -> Vector2:
 		position = Vector2(pos_x, pos_y)
 		distance_to_player = ($Player.position - position).length()
 	return position
+	
+func grant_kill_xp(killer, dead_mic_level):
+	var xp : int = dead_mic_level * 10
+	var champ
+	for mob in mobs:
+		if mob == killer and is_instance_valid(mob):
+			champ = mob
+			mob.xp_acquire(xp)
+	if $Player == killer:
+		$Player.xp_acquire(xp)
+		champ = $Player
+	if is_instance_valid(champ):
+		champ.xp_acquire(xp)
+		champ.kill_count += 1
+		print('killer was: ', champ, 'granted: ', xp, 'xp!')
+		print('has killed ', champ.kill_count, ' microbes')

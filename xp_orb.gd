@@ -12,6 +12,6 @@ func _process(delta):
 
 func _on_body_entered(body):  
 	# only microbes can collide set with collision masks
-	body.xp_acquire(10)
+	body.xp_acquire(5)
 	body.health += 1
 	queue_free() # remove xp_orb
