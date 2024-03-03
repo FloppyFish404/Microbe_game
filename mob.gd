@@ -3,9 +3,10 @@ extends Microbe
 var has_objective : bool = false
 var target
 var direction : Vector2 = Vector2(0, 0) # argument for apply_central_force() in _process()
-var free_roam : Vector2 = Vector2(randi_range(-1, 1), randi_range(-1, 1)).normalized()
+var free_roam_dir : Vector2 = Vector2(randi_range(-1, 1), randi_range(-1, 1)).normalized()
 var boundary_close : bool = false
 var aggression : int = randi_range(-10, 10)
+var trail_redirect : bool = false
 
 var upgrade_probs : Dictionary = {  # list of all upgrades with probability values that sum to 1
 	'speed' : 0.0, 
@@ -24,50 +25,36 @@ func _ready():
 	for i in range(lvl):
 		LevelUp()
 	get_probs()
-	# position = Vector2(500, 500)  # TESTING ONLY, DEL ME
+	# position = Vector2(500, 500)  # TESTING
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	super(delta)
 	if xp_points > 0:
 		roulette_wheel()
-	
-	# print(has_objective, target)
+
 	if not has_objective:
 		find_target()
-
 	if has_objective:
-		if is_instance_valid(target):
-			if target.name.left(3) == 'Mob' or target.name.left(6) == 'Player':
-				var eval = fight_or_flight()
-				if eval < 0:  # RUN
-					direction = (global_position - target.get_global_position()).normalized()
-				elif eval > 0:  # KILL HIM
-					direction = (target.get_global_position() - global_position).normalized()
-			elif target.name.left(6) == 'xp_orb':
-				direction = (target.get_global_position() - global_position).normalized()
-			elif target.name.left(9) == 'Spikeball':
-				direction = (global_position - target.get_global_position()).normalized()
-		else:
-			has_objective = false
-			target = null
-
+		pursue_target()
 	else:  # no objective found - free roaming
-		direction = free_roam * 0.5
-		var adjust_dir : Vector2 = Vector2(randi_range(-1, 1), randi_range(-1, 1)) * 0.05
-		# avoid world bound
-		if boundary_close == true:
-			adjust_dir += Vector2(map.size/2 - global_position).normalized() * 0.005  # redirect to middle of map slowly
-		free_roam = (free_roam + adjust_dir).normalized()
+		free_roam()
 
 	if Engine.get_process_frames() % 20 == 0:  # recalc target
 		find_target()
 		
 func _physics_process(delta):
-	apply_central_force(direction * speed * 200)
+	if trail_redirect:
+		direction = direction.orthogonal()
+		trail_redirect = false
+	var force = direction * speed * 200
+	apply_central_force(force)
+	tail_movement_rate = force.length() * delta * 0.03
+	swim_animation(tail_movement_rate)
 	var rotate = calc_rotation()
 	apply_torque(rotate)
 	super(delta)
+
 
 func calc_rotation() -> float:
 	var rotate : float = (direction.angle() - rotation)
@@ -78,7 +65,6 @@ func calc_rotation() -> float:
 		rotate = rotate/abs(rotate)  # normalise to 1
 	rotate *= rotation_scalar
 	return rotate
-
 
 func roulette_wheel():
 	# picks attribute to upgrade
@@ -159,11 +145,39 @@ func find_target():
 			if obj.name.left(11) == 'World_Bound':
 				boundary_close = true
 
+func pursue_target() -> void:
+		if is_instance_valid(target):
+			if target.name.left(3) == 'Mob' or target.name.left(6) == 'Player':
+				var eval = fight_or_flight()
+				if eval < 0:  # RUN
+					direction = (global_position - target.get_global_position()).normalized()
+				elif eval > 0:  # KILL HIM
+					var target_pos : Vector2 = target.get_global_position()
+					var see_ahead : Vector2 = target.linear_velocity
+					see_ahead *= (0.2 * (10+level)/10)
+					see_ahead *= 1 + (upgrade_lvls['speed']/max_upgrade_lvls['speed'])
+					if target.name.left(6) == 'Player':
+						print(see_ahead.length())
+					var predicted_pos : Vector2 = target_pos + see_ahead
+					direction = (predicted_pos - global_position).normalized()
+				boost_if_urgent(eval)
+
+			elif target.name.left(6) == 'xp_orb':
+				direction = (target.get_global_position() - global_position).normalized()
+			elif target.name.left(9) == 'Spikeball':
+				direction = (global_position - target.get_global_position()).normalized()
+		else:
+			has_objective = false
+			target = null
+
 func fight_or_flight():
 	var eval
 	if upgrade_lvls['spike'] == 0 and upgrade_lvls['bodydamage'] == 0:
-		eval = -1  # no damage from ramming, don't fight
+		eval = -10  # no damage from ramming, don't fight
 		return eval
+	elif 20 > (health/max_health)*100 - aggression:
+		eval = -10
+		return eval  # low health, don't fight
 	
 	eval = aggression + (level - target.level)
 	eval += (upgrade_lvls['spike'] - target.upgrade_lvls['spike'])
@@ -171,6 +185,19 @@ func fight_or_flight():
 	eval -= (target.get_global_position() - global_position).length() / 100
 	return eval
 
+func boost_if_urgent(eval) -> void:
+	if abs(eval) > 9 and boost_capacity > 20 and not drain_boost:  # seriously situation
+		boost()
+	if drain_boost and (boost_capacity == 0 or abs(eval) < 9):
+		stop_boost()
+
+func free_roam():
+	direction = free_roam_dir * 0.5
+	var adjust_dir : Vector2 = Vector2(randi_range(-1, 1), randi_range(-1, 1)) * 0.05
+	# avoid world bound
+	if boundary_close == true:
+		adjust_dir += Vector2(map.size/2 - global_position).normalized() * 0.005  # redirect to middle of map slowly
+	free_roam_dir = (free_roam_dir + adjust_dir).normalized()
 
 func scale_up():
 	super()

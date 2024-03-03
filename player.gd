@@ -16,7 +16,8 @@ func _ready():
 	global.bodydamage_button_pressed.connect(bodydamage_lvl_up)
 	global.trail_button_pressed.connect(trail_lvl_up)
 	level = 1
-	xp_points = 0
+	# xp_acquire(10000)  # TESTING/HACKS
+	# xp_points = 0
 	random_pos()
 
 func random_pos():
@@ -76,7 +77,10 @@ func _physics_process(_delta):
 		mouse_vector = mouse_vector.normalized()
 		apply_central_force(mouse_vector * max_move_dist * speed)
 		tail_movement_rate = 0.4
-
+	if drain_boost == true and boost_capacity > 0:
+		tail_movement_rate += 0.5  # faster tail for boost
+	swim_animation(tail_movement_rate)
+	
 	# PLAYER ROTATION
 	if not dead or stun:
 		var rot_angle = get_local_mouse_position().angle()

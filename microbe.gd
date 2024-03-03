@@ -131,14 +131,9 @@ func _process(_delta):
 func _physics_process(_delta):
 	if dead or stun:  # inside min_move_distance
 		speed = 0
-		tail_movement_rate = 0
-	if drain_boost == true and boost_capacity > 0:
-		tail_movement_rate += 0.5  # faster tail for boost
-	swim_animation(tail_movement_rate * _delta * 50)
-
-	if Engine.get_process_frames() % 10 == 0:
-
-		# TRAIL
+	
+	# TRAIL
+	if Engine.get_process_frames() % 10 == 0: 
 		if $Trail.is_visible_in_tree():
 			$Trail/Trail_Line.set_as_top_level(true)
 			$Trail/Trail_Line.add_point($Trail.global_position)
@@ -158,6 +153,8 @@ func _physics_process(_delta):
 			var body : Microbe = result.collider
 			body.health -= trail_damage
 			body.last_damaged = self
+			if body.name.left(3) == 'Mob':
+				body.trail_redirect = true
 
 
 func xp_acquire(xp_gain):
@@ -525,7 +522,7 @@ func death():
 # glitch - sometimes upgrading tail, the tail_end gets pinned far away
 
 # mob behaviour
-	# dodge trail
+	# aim ahead
 	# boost
 
 # blue '5' xp orb

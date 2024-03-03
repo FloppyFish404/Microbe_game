@@ -397,7 +397,7 @@ process_material = SubResource("ParticleProcessMaterial_rlq3o")
 z_index = -1
 position = Vector2(0, 2.08165e-12)
 width = 1.0
-default_color = Color(1, 1, 1, 0.117647)
+default_color = Color(0.32549, 0.0627451, 0.901961, 0.392157)
 
 [node name="Stun" type="Timer" parent="."]
 wait_time = 0.8
