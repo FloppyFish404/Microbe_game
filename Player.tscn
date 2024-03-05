@@ -76,3 +76,9 @@ offset_right = 1210.0
 offset_bottom = 150.0
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="Kill_Count" type="Label" parent="Canvas" index="4"]
+offset_left = 160.0
+offset_top = 100.0
+offset_right = 360.0
+offset_bottom = 150.0

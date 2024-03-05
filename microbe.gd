@@ -69,12 +69,13 @@ var spike_damage : int = 0
 var bodydamage : int = 0
 
 var trail_length = 8
-var trail_damage : float = 0.10
+var trail_damage : float = 0.03
 
 var last_damaged
 var dead : bool = false
 var kill_count : int = 0
 
+@onready var red_tween : Tween = create_tween()
 @onready var map = get_parent().get_node("Map")
 
 
@@ -122,11 +123,10 @@ func _process(_delta):
 			$Node2D/Mitochondria.scale = mit_base_size
 			mit_tween_exists = false
 	queue_redraw()
- 
-	if not dead:
-		var col_fade : float = (health / max_health)
-		$Node2D/Sprite.modulate = Color(int(col_fade*250 + 5))  # alpha value, 255 max opacity
-		$Node2D/BodySpike.modulate = Color(int(col_fade*150 + 105))
+
+	if not red_tween.is_running() and not dead: 
+		recolor()
+
 
 func _physics_process(_delta):
 	if dead or stun:  # inside min_move_distance
@@ -151,7 +151,9 @@ func _physics_process(_delta):
 		if result:
 			# print("Hit an: ", result.collider, " Hit at point: ", result.position)
 			var body : Microbe = result.collider
-			body.health -= trail_damage
+			var dmg : float = trail_damage * ((trail_length/2) + (i/2) * _delta)
+			body.health -= dmg
+			body.flash_red(dmg)
 			body.last_damaged = self
 			if body.name.left(3) == 'Mob':
 				body.trail_redirect = true
@@ -378,8 +380,8 @@ func regen_lvl_up():
 			# print(name, $Node2D/Mitochondria.scale, upgrade_lvls["regen"])
 		mit_grow_size = $Node2D/Mitochondria.scale * 1.2
 		mit_base_size = $Node2D/Mitochondria.scale
-		health_regen_flat += 0.5
-		health_regen_relative += 0.002
+		health_regen_flat += 0.3
+		health_regen_relative += 0.001
 		# max regen 7hp/s at min skin thickness
 		# max regen 14hp/s at max skin thickness
 
@@ -421,8 +423,8 @@ func trail_lvl_up():
 			return
 		$Trail/Trail_Particles.amount = 8 + upgrade_lvls["trail"] * 8
 		$Trail/Trail_Particles.lifetime = 1 + upgrade_lvls["trail"] * 0.3
-		trail_length = 8 + (upgrade_lvls["trail"]-1)*4
-		trail_damage = 0.10 + upgrade_lvls["trail"] * 0.05
+		trail_length = 8 + (upgrade_lvls["trail"]-1)*2
+		# trail_damage = 0.03 + upgrade_lvls["trail"] * 0.01
 		# Trail gradient visuals
 		# var grad : Gradient = Gradient.new()
 		# var green_inc : int = (upgrade_lvls["trail"]-1)*10
@@ -461,8 +463,9 @@ func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index)
 
 func spikeball_hit(body):
 	# Take damage
-	var damage_taken = int(10 + (linear_velocity.length() * 0.05))
-	health -= damage_taken
+	var dmg = int(10 + (linear_velocity.length() * 0.05))
+	health -= dmg
+	flash_red(dmg)
 		
 	# Push microbe
 	var push_dir = (position - body.global_position).normalized()
@@ -488,11 +491,41 @@ func spike_hit(body):
 	var impulse_vect = const_push + vel_push
 	apply_impulse(impulse_vect)
 	health -= body.spike_damage
+	flash_red(body.spike_damage)
 	last_damaged = body
 
 func body_hit(body):
-	health -= body.bodydamage
-	last_damaged = body
+	if body.bodydamage > 0:
+		health -= body.bodydamage
+		last_damaged = body
+		flash_red(body.bodydamage)
+	
+func recolor():
+	var fade : float = 0.15 - (0.15*(health / max_health))
+	var col : Color = Color(fade*0.85, fade*1.1, fade*1.2, 1-fade*5)
+	$Node2D/Sprite.modulate = col
+	$Node2D/BodySpike.modulate = col
+	
+func flash_red(damage):
+	if dead or damage == 0:
+		return
+	recolor()  # get base color to tween back to
+	# color sprite red for damage taken
+	var og_col : Color = $Node2D/Sprite.modulate
+	var og_fade : float = 0.5 + 0.5*og_col[3]
+	var hurt_col : Color = Color(0.5, 0, 0, og_fade)
+	$Node2D/Sprite.modulate = hurt_col
+	$Node2D/BodySpike.modulate = hurt_col
+	#tween back to og_col
+	if red_tween:  
+		red_tween.kill()
+	red_tween = create_tween()
+	var time = 2
+	red_tween.set_ease(Tween.EASE_OUT)
+	red_tween.set_parallel(true)
+	red_tween.tween_property($Node2D/Sprite, 'modulate', og_col, time)
+	red_tween.tween_property($Node2D/BodySpike, 'modulate', og_col, time)
+
 
 func death():
 	dead = true
@@ -500,38 +533,32 @@ func death():
 	spike_damage = 0
 	bodydamage = 0
 	$Trail.hide()
-	var dead_col = Color8(0, 0, 0, 80)
+	var dead_col = Color(0, 0.25)
 	var time = 1.0  # sec
 	
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_QUAD)
-	tween.set_ease(Tween.EASE_OUT)
-	tween.set_parallel(true)
-	tween.tween_property($Node2D/Sprite, 'modulate', dead_col, time)
-	tween.tween_property($Node2D/Mitochondria, 'modulate', dead_col, time)
-	tween.tween_property($Node2D/BodySpike, 'modulate', dead_col, time)
-	tween.tween_property($Spike/Sprite2D, 'modulate', dead_col, time)
-	tween.tween_property(self, 'tail_col', dead_col, time)
-	for tail in $TailNode.get_children():
+	var death_tween = create_tween()
+	death_tween.set_trans(Tween.TRANS_QUAD)
+	death_tween.set_ease(Tween.EASE_OUT)
+	death_tween.set_parallel(true)
+	death_tween.tween_property($Node2D/Sprite, 'modulate', dead_col, time)
+	death_tween.tween_property($Node2D/Mitochondria, 'modulate', dead_col, time)
+	death_tween.tween_property($Node2D/BodySpike, 'modulate', dead_col, time)
+	death_tween.tween_property($Spike/Spike_sprite, 'modulate', dead_col, time)
+	death_tween.tween_property(self, 'tail_col', dead_col, time)
+	for tail in $TailNode.get_children():  #make tail polygons disappear
 		for poly in tail.get_children():
 			if poly is Polygon2D:
-				tween.tween_property(poly, 'modulate', Color(0), time)  # tail_polygons dissapear
+				death_tween.tween_property(poly, 'modulate', Color(0), time)  # tail_polygons dissapear
 
 # TODO
-
-# glitch - sometimes upgrading tail, the tail_end gets pinned far away
-
-# mob behaviour
-	# aim ahead
-	# boost
-
+# glitch - sometimes upgrading tail, the tail_end gets pinned far away?
+# ignore harmless mobs
 # blue '5' xp orb
 # stop excessive tail swing
+# change sprite to gray instead of alpha on death
+# stop overlap spawning in main
 
-# Things to improve/fix:
-	# change sprite to gray instead of alpha on death
-	# stop overlap spawning in main
-
-# ideas
-	# - make spike damage dependant on impact speed?
-	# make delay after damage taken before mito starts working
+# LIST
+# 3. Make game distributable, make it browser game
+# 4. Code for multiplayer
+# 5. Distribute on Steam, make it a thing, see through to the end

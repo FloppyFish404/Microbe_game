@@ -136,5 +136,5 @@ func grant_kill_xp(killer, dead_mic_level):
 	if is_instance_valid(champ):
 		champ.xp_acquire(xp)
 		champ.kill_count += 1
-		print('killer was: ', champ, 'granted: ', xp, 'xp!')
-		print('has killed ', champ.kill_count, ' microbes')
+		# print('killer was: ', champ, 'granted: ', xp, 'xp!')
+		# print('has killed ', champ.kill_count, ' microbes')

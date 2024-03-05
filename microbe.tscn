@@ -301,31 +301,36 @@ script = ExtResource("1_7ajjv")
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Node2D"]
+modulate = Color(0, 0, 0, 1)
 position = Vector2(2.08165e-12, 2.08165e-12)
 rotation = 1.5708
 scale = Vector2(0.074, 0.074)
 sprite_frames = SubResource("SpriteFrames_nprx6")
-animation = &"base_0"
+animation = &"1"
 
 [node name="Mitochondria" type="Sprite2D" parent="Node2D"]
 visible = false
+modulate = Color(0, 0, 0, 1)
 rotation = 1.5708
 scale = Vector2(0.03, 0.03)
 texture = SubResource("CompressedTexture2D_mihpe")
 
 [node name="BodySpike" type="AnimatedSprite2D" parent="Node2D"]
 visible = false
+modulate = Color(0, 0, 0, 1)
 rotation = 1.5708
 scale = Vector2(0.075, 0.075)
 sprite_frames = SubResource("SpriteFrames_1sipi")
 animation = &"1"
 
 [node name="Bod" type="CollisionShape2D" parent="."]
+visible = false
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_6kwwe")
 
 [node name="TailNode" type="Node2D" parent="."]
 visible = false
+modulate = Color(0, 0, 0, 1)
 show_behind_parent = true
 position = Vector2(-39, 0)
 
@@ -380,6 +385,7 @@ polygon = PackedVector2Array(10, 2.96443, -9.99999, 2.9645, -3.25799e-05, -8.893
 disabled = true
 
 [node name="Spike_sprite" type="Sprite2D" parent="Spike"]
+modulate = Color(0, 0, 0, 1)
 position = Vector2(1.086e-05, 2.96446)
 scale = Vector2(0.05, 0.00988152)
 texture = ExtResource("19_e78uv")

@@ -80,15 +80,15 @@ func roulette_wheel():
 
 func get_probs():
 	var prob_sum : float = 0
-	var spread : float = 5  # spread of the probabilities towards extremes
+	var spread : int = randi_range(0,7) # spread of the probabilities towards extremes
 	for key in upgrade_probs.keys():
-		var prob = randf()**spread * max_upgrade_lvls[key]
+		var prob = randf()**spread * max_upgrade_lvls[key]**(spread/7)
 		upgrade_probs[key] = prob
 		prob_sum += prob
 	for key in upgrade_probs.keys():
 		upgrade_probs[key] /= prob_sum
 		# print(key, ', ', upgrade_probs[key])
-	# print('\n')
+	# print()
 
 func adjust_probs():  #UNTESTED
 	# if an upgrade is maxed, scale other upgrade probabilities up accordingly
@@ -156,11 +156,10 @@ func pursue_target() -> void:
 					var see_ahead : Vector2 = target.linear_velocity
 					see_ahead *= (0.2 * (10+level)/10)
 					see_ahead *= 1 + (upgrade_lvls['speed']/max_upgrade_lvls['speed'])
-					if target.name.left(6) == 'Player':
-						print(see_ahead.length())
 					var predicted_pos : Vector2 = target_pos + see_ahead
 					direction = (predicted_pos - global_position).normalized()
 				boost_if_urgent(eval)
+				free_roam_dir = direction
 
 			elif target.name.left(6) == 'xp_orb':
 				direction = (target.get_global_position() - global_position).normalized()
@@ -177,7 +176,7 @@ func fight_or_flight():
 		return eval
 	elif 20 > (health/max_health)*100 - aggression:
 		eval = -10
-		return eval  # low health, don't fight
+		return eval  # low health, run
 	
 	eval = aggression + (level - target.level)
 	eval += (upgrade_lvls['spike'] - target.upgrade_lvls['spike'])
@@ -192,7 +191,7 @@ func boost_if_urgent(eval) -> void:
 		stop_boost()
 
 func free_roam():
-	direction = free_roam_dir * 0.5
+	direction = free_roam_dir
 	var adjust_dir : Vector2 = Vector2(randi_range(-1, 1), randi_range(-1, 1)) * 0.05
 	# avoid world bound
 	if boundary_close == true:

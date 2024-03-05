@@ -16,8 +16,8 @@ func _ready():
 	global.bodydamage_button_pressed.connect(bodydamage_lvl_up)
 	global.trail_button_pressed.connect(trail_lvl_up)
 	level = 1
-	# xp_acquire(10000)  # TESTING/HACKS
-	# xp_points = 0
+	xp_points = 50     # TESTING/HACKS
+	# xp_acquire(3000)  # TESTING/HACKS
 	random_pos()
 
 func random_pos():
@@ -39,11 +39,13 @@ func _process(_delta):
 	$Canvas/Xp_Bar.value = xp
 	$Canvas/Xp_Bar.show()
 	
+	# TEXT
+	$Canvas/Kill_Count.text = 'Kill Count: %s' % kill_count
 	if global.xp_points > 0:
-		$Canvas/Xp_points.text = ('%s XP Points available!\nPress space to use' % global.xp_points)
+		$Canvas/Xp_points.text = '%s XP Points available!\nPress space to use' % global.xp_points
 	else:
 		$Canvas/Xp_points.text = ''
-
+	
 	# BOOST STAMINA LOGIC
 	$Canvas/Boost_Bar.max_value = boost_max_capacity
 	$Canvas/Boost_Bar.value = boost_capacity
@@ -119,7 +121,6 @@ func _on_stun_timeout():
 	super()
 	if boost_key_held:
 		boost()
-
 
 	# print('mass = ', mass)
 	# print('force = ', speed)
