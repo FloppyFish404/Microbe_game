@@ -21,10 +21,6 @@ autostart = true
 
 [node name="HUD" parent="." instance=ExtResource("4_xon6l")]
 
-[node name="Music" type="AudioStreamPlayer" parent="."]
-
-[node name="DeathSound" type="AudioStreamPlayer" parent="."]
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="pause_menu" parent="CanvasLayer" instance=ExtResource("5_f2662")]

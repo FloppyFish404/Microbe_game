@@ -15,6 +15,9 @@ radius = 762.001
 [node name="Microbe" instance=ExtResource("1_0xish")]
 script = ExtResource("1_1twbn")
 
+[node name="Sprite" parent="Node2D" index="0"]
+animation = &"9"
+
 [node name="Bod" parent="." index="1"]
 shape = SubResource("CapsuleShape2D_1gp0m")
 

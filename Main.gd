@@ -46,8 +46,6 @@ func game_over():
 	$MobTimer.stop()
 	$HUD.show_game_over()
 	get_tree().call_group("mobs", "queue_free")
-	$Music.stop()
-	$DeathSound.play()
 
 func start_game():
 	get_tree().paused = game_running  # unpause player

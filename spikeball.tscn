@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://0ro3e1vwy7n"]
 
-[ext_resource type="Texture2D" uid="uid://cohevy6q6wqpq" path="res://art/spikeball_screenshot.png" id="1_bmtsf"]
 [ext_resource type="Script" path="res://spikeball.gd" id="1_hegfe"]
+[ext_resource type="Texture2D" uid="uid://dulko0drc2bol" path="res://art/spike_ball/spikeball.png" id="2_l1co1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6fss3"]
 
@@ -18,7 +18,7 @@ script = ExtResource("1_hegfe")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_bmtsf")
+texture = ExtResource("2_l1co1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_hdo0j")

@@ -87,8 +87,6 @@ func get_probs():
 		prob_sum += prob
 	for key in upgrade_probs.keys():
 		upgrade_probs[key] /= prob_sum
-		# print(key, ', ', upgrade_probs[key])
-	# print()
 
 func adjust_probs():  #UNTESTED
 	# if an upgrade is maxed, scale other upgrade probabilities up accordingly
@@ -154,7 +152,7 @@ func pursue_target() -> void:
 				elif eval > 0:  # KILL HIM
 					var target_pos : Vector2 = target.get_global_position()
 					var see_ahead : Vector2 = target.linear_velocity
-					see_ahead *= (0.2 * (10+level)/10)
+					see_ahead *= (0.2 * (level+10)/10)
 					see_ahead *= 1 + (upgrade_lvls['speed']/max_upgrade_lvls['speed'])
 					var predicted_pos : Vector2 = target_pos + see_ahead
 					direction = (predicted_pos - global_position).normalized()
