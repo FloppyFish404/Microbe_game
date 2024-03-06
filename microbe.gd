@@ -75,7 +75,7 @@ var last_damaged
 var dead : bool = false
 var kill_count : int = 0
 
-@onready var red_tween : Tween = create_tween()
+@onready var red_tween : Tween #= create_tween()
 @onready var map = get_parent().get_node("Map")
 
 
@@ -124,11 +124,12 @@ func _process(_delta):
 			mit_tween_exists = false
 	queue_redraw()
 
-	if not red_tween.is_running() and not dead: 
-		recolor()
+	if red_tween != null:
+		if not red_tween.is_running() and not dead:
+			recolor()
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	if dead or stun:  # inside min_move_distance
 		speed = 0
 	
@@ -151,7 +152,7 @@ func _physics_process(_delta):
 		if result:
 			# print("Hit an: ", result.collider, " Hit at point: ", result.position)
 			var body : Microbe = result.collider
-			var dmg : float = trail_damage * ((trail_length/2) + (i/2) * _delta)
+			var dmg : float = trail_damage * ((trail_length/2.0) + (i/2.0) * delta)
 			body.health -= dmg
 			body.flash_red(dmg)
 			body.last_damaged = self
@@ -215,13 +216,10 @@ func speed_lvl_up():
 	
 	# Identify old tail
 	var old_tail_name
-	var old_tail
 	if upgrade_lvls['speed'] == 2:
 		old_tail_name = "Anchor"
-		old_tail = $TailNode/Anchor
 	else:
 		old_tail_name = "tail_%s" % str(upgrade_lvls['speed']-1)
-		old_tail = get_node("TailNode/%s" % old_tail_name)
 	
 	# New tail segment
 	var new_tail = RigidBody2D.new()
@@ -440,7 +438,7 @@ func trail_lvl_up():
 		# $Trail/Trail_Line.gradient = grad
 
 
-func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+func _on_body_shape_entered(_body_rid, body, body_shape_index, local_shape_index):
 	if body.name.left(4) == 'tail':
 		pass
 	else:

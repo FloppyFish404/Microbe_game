@@ -31,7 +31,7 @@ func _ready():
 	global.grant_kill_xp.connect(grant_kill_xp)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if xp_orbs.size() < total_xp_orbs:
 		spawn_xp_orb()
 	if spikeballs.size() < total_spikeballs:
@@ -60,7 +60,7 @@ func restart_game():
 
 func _input(event: InputEvent):
 	if (event.is_action_pressed("pause_game") and game_started and $Player.dead == false):
-		var game_running: bool = get_tree().paused
+		game_running = get_tree().paused
 		get_tree().paused = !get_tree().paused
 		if !game_running:
 			$CanvasLayer/pause_menu.show()
@@ -75,31 +75,28 @@ func _input(event: InputEvent):
 
 
 func _on_del_items_check_timer_timeout():  # check items consumed to be replaced
-	group_cleanup(xp_orbs)
-	group_cleanup(spikeballs)
-	group_cleanup(mobs)
+	xp_orbs = group_cleanup(xp_orbs)
+	spikeballs = group_cleanup(spikeballs)
+	mobs = group_cleanup(mobs)
 
-
-func group_cleanup(items : Array):
-	var to_del_items = []
-	for i in items.size():
-		if not is_instance_valid(items[i]):
-			to_del_items.append(i)
-	for indx in to_del_items:
-		items.remove_at(indx)
+func group_cleanup(dirty_arr : Array) -> Array:
+	var clean_arr : Array = []
+	for i in dirty_arr.size():
+		if is_instance_valid(dirty_arr[i]):
+			clean_arr.append(dirty_arr[i])
+	return clean_arr
 
 func spawn_xp_orb():
 	var xp_orb = pipe_xp.instantiate()
 	xp_orb.position = random_map_position()
 	add_child(xp_orb)
 	xp_orbs.append(xp_orb)
-	
+
 func spawn_spikeball():
 	var spikeball = pipe_spikeball.instantiate()
 	spikeball.position = random_map_position()
 	add_child(spikeball)
 	spikeballs.append(spikeball)
-
 
 func spawn_mob():
 	var mob = pipe_mob.instantiate()
@@ -107,7 +104,6 @@ func spawn_mob():
 		mob.position = random_map_position()
 	add_child(mob)
 	mobs.append(mob)
-
 
 func random_map_position() -> Vector2:
 	var pos_x : int = randi_range(0, map.size.x)
@@ -120,7 +116,7 @@ func random_map_position() -> Vector2:
 		position = Vector2(pos_x, pos_y)
 		distance_to_player = ($Player.position - position).length()
 	return position
-	
+
 func grant_kill_xp(killer, dead_mic_level):
 	var xp : int = dead_mic_level * 10
 	var champ

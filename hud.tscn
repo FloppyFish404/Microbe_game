@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://d18m1mxwgxhhh"]
+[gd_scene load_steps=4 format=3 uid="uid://d18m1mxwgxhhh"]
 
 [ext_resource type="Script" path="res://HUD.gd" id="1_bi4uf"]
-[ext_resource type="FontFile" path="res://fonts/Xolonium-Regular.ttf" id="2_yamrf"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_8nfwi"]
 action = &"start_game"
@@ -24,10 +23,9 @@ offset_right = 200.0
 offset_bottom = -211.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_yamrf")
 theme_override_font_sizes/font_size = 50
 shortcut = SubResource("Shortcut_5t3of")
-text = "Start"
+text = "START"
 
 [node name="RestartButton" type="Button" parent="."]
 visible = false
@@ -42,7 +40,6 @@ offset_right = 200.0
 offset_bottom = -211.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_yamrf")
 theme_override_font_sizes/font_size = 50
 shortcut = SubResource("Shortcut_5t3of")
 text = "RESTART"

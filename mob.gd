@@ -51,20 +51,20 @@ func _physics_process(delta):
 	apply_central_force(force)
 	tail_movement_rate = force.length() * delta * 0.03
 	swim_animation(tail_movement_rate)
-	var rotate = calc_rotation()
-	apply_torque(rotate)
+	var rot = calc_rotation()
+	apply_torque(rot)
 	super(delta)
 
 
 func calc_rotation() -> float:
-	var rotate : float = (direction.angle() - rotation)
-	if abs(rotate) > PI:  # aviod pos-neg sign switch at PI radians
-		rotate *= -1
-		rotate *= (2*PI - abs(rotate))/abs(rotate)
-	if abs(rotate) > 1:
-		rotate = rotate/abs(rotate)  # normalise to 1
-	rotate *= rotation_scalar
-	return rotate
+	var rot : float = (direction.angle() - rotation)
+	if abs(rot) > PI:  # aviod pos-neg sign switch at PI radians
+		rot *= -1
+		rot *= (2*PI - abs(rot))/abs(rot)
+	if abs(rot) > 1:
+		rot = rot/abs(rot)  # normalise to 1
+	rot *= rotation_scalar
+	return rot
 
 func roulette_wheel():
 	# picks attribute to upgrade
@@ -82,7 +82,7 @@ func get_probs():
 	var prob_sum : float = 0
 	var spread : int = randi_range(0,7) # spread of the probabilities towards extremes
 	for key in upgrade_probs.keys():
-		var prob = randf()**spread * max_upgrade_lvls[key]**(spread/7)
+		var prob = randf()**spread * max_upgrade_lvls[key]**(spread/7.0)
 		upgrade_probs[key] = prob
 		prob_sum += prob
 	for key in upgrade_probs.keys():

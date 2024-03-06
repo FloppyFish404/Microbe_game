@@ -12,7 +12,7 @@ extends Control
 func _ready():
 	hide()  # hides upon start
 
-func _process(delta):
+func _process(_delta):
 	var xp : String = str(global.xp_points)
 	$Panel/VBoxContainer/XpPoints.text = "XP Points: %s" % xp
 	queue_redraw()
@@ -22,13 +22,13 @@ func _process(delta):
 func _draw():
 	for button in buttons:
 		var name_len : int = button.name.find('_')
-		var name : String = button.name.left(name_len)
+		var upg_name : String = button.name.left(name_len)
 		var circle_spacing : Vector2 = Vector2(0, 0)
-		for i in global.player_max_lvls[name]:
+		for i in global.player_max_lvls[upg_name]:
 			var button_pos : Vector2 = button.global_position + Vector2(195, 15)
 			var circle_pos : Vector2 = button_pos + circle_spacing
 			draw_circle(circle_pos, 10, Color.BLACK)  # Background circles
-			if global.player_lvls[name] > i:
+			if global.player_lvls[upg_name] > i:
 				draw_circle(circle_pos, 5, Color.WHITE)  # Upgraded filled circles 
 			circle_spacing += Vector2(45, 0)
 

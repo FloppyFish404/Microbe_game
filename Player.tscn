@@ -17,9 +17,6 @@ bg_color = Color(0, 0.682353, 0.952941, 0.411765)
 [node name="Microbe" instance=ExtResource("1_6ruj7")]
 script = ExtResource("2_y8atj")
 
-[node name="Sprite" parent="Node2D" index="0"]
-animation = &"base_0"
-
 [node name="Bod" parent="." index="1"]
 shape = SubResource("CapsuleShape2D_u1ecu")
 

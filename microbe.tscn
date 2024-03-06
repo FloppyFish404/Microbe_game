@@ -332,9 +332,6 @@ modulate = Color(0, 0, 0, 1)
 show_behind_parent = true
 position = Vector2(-39, 0)
 
-[node name="swim_rate" type="Timer" parent="TailNode"]
-wait_time = 0.1
-
 [node name="Anchor" type="StaticBody2D" parent="TailNode"]
 position = Vector2(2.08165e-12, 2.08165e-12)
 collision_layer = 0
@@ -398,6 +395,7 @@ position = Vector2(0, -2.08165e-12)
 process_material = SubResource("ParticleProcessMaterial_rlq3o")
 
 [node name="Trail_Line" type="Line2D" parent="Trail"]
+visible = false
 z_index = -1
 position = Vector2(0, 2.08165e-12)
 width = 1.0
@@ -408,5 +406,4 @@ wait_time = 0.8
 one_shot = true
 
 [connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
-[connection signal="timeout" from="TailNode/swim_rate" to="." method="_on_swim_rate_timeout"]
 [connection signal="timeout" from="Stun" to="." method="_on_stun_timeout"]
