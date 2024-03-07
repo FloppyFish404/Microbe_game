@@ -1,4 +1,3 @@
-# @icon("res://custom_class_icons/Microbe.svg")  # ccbs
 class_name Microbe extends RigidBody2D
 
 var pos_x : float
@@ -358,7 +357,8 @@ func health_lvl_up():
 		if upgrade_lvls["health"] % 3 == 0:  # shrink sprite to match collision shape
 			$Node2D/Sprite.scale -= Vector2(0.001, 0.001)
 		# stats upgrade
-		var new_max : int = max_health + 10 + int(max_health* 0.1) 
+		@warning_ignore("narrowing_conversion")
+		var new_max : int = max_health + 10 + int(max_health* 0.1) # float rounded to int, this is ok
 		var increase = new_max - max_health
 		max_health = new_max
 		health += increase  # add health from upgrade
@@ -549,8 +549,6 @@ func death():
 				death_tween.tween_property(poly, 'modulate', Color(0), time)  # tail_polygons dissapear
 
 # TODO
-# glitch - sometimes upgrading tail, the tail_end gets pinned far away?
-# ignore harmless mobs
 # blue '5' xp orb
 # stop excessive tail swing
 # change sprite to gray instead of alpha on death

@@ -17,7 +17,7 @@ func _ready():
 	global.trail_button_pressed.connect(trail_lvl_up)
 	level = 1
 	# xp_points = 50    # TESTING/HACKS
-	xp_acquire(500)  # TESTING/HACKS
+	# xp_acquire(500)  # TESTING/HACKS
 	random_pos()
 
 func random_pos():
